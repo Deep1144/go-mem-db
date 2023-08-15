@@ -1,4 +1,4 @@
-package lib
+package memdb
 
 import (
 	"encoding/json"

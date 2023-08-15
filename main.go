@@ -1,11 +1,11 @@
 package main
 
 import (
-	"go-db/lib"
+	memdb "go-mem-db/lib"
 )
 
 func main() {
-	db := lib.NewKeyValueDB("datastore.json")
+	db := memdb.NewKeyValueDB("datastore")
 	db.Put("try2", "1")
 
 	db.Get("try")
