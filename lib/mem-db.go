@@ -2,7 +2,9 @@ package memdb
 
 import (
 	"encoding/json"
+	"go-mem-db/lib/internal/helper"
 	"os"
+	"path/filepath"
 	"sync"
 )
 
@@ -48,14 +50,17 @@ func (kvd *KeyValueDB) Delete(key string) {
 
 func (kvd *KeyValueDB) saveData() {
 	data, _ := json.Marshal(kvd.store)
-	os.WriteFile(kvd.dbName, data, os.ModePerm)
+	databaseFile := filepath.Join(helper.AppsDataPath(), kvd.dbName)
+	os.WriteFile(databaseFile, data, os.ModePerm)
 }
 
 func (kvd *KeyValueDB) loadData() {
-	if _, err := os.Stat(kvd.dbName); os.IsNotExist(err) {
+	databaseFile := filepath.Join(helper.AppsDataPath(), kvd.dbName)
+
+	if _, err := os.Stat(databaseFile); os.IsNotExist(err) {
 		return
 	}
 
-	bytesData, _ := os.ReadFile(kvd.dbName)
+	bytesData, _ := os.ReadFile(databaseFile)
 	json.Unmarshal(bytesData, &kvd.store)
 }
